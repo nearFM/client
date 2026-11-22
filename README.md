@@ -15,6 +15,17 @@ nearFM is designed as a browser-based radio application rather than a convention
 - Direct playback fallback when Web Audio analysis is unavailable for a stream
 - Local favorites stored in the current browser
 
+## Deploy with Cloudflare Pages
+
+Connect the `nearFM/client` GitHub repository using Cloudflare Pages Git integration. Use these build settings:
+
+- Production branch: `main`
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Root directory: `/` (repository root)
+
+The Vite base path is relative, so the same build works on the `pages.dev` hostname and a custom domain.
+
 ## Development
 
 Requirements: Node.js 18 or newer and npm.
