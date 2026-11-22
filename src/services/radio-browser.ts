@@ -20,6 +20,14 @@ async function getJson<T>(path: string, signal?: AbortSignal): Promise<T> {
 function normalizeStation(station: RadioStation): RadioStation {
   return {
     ...station,
+    name: station.name ?? "",
+    url: station.url ?? "",
+    url_resolved: station.url_resolved ?? "",
+    favicon: station.favicon ?? "",
+    tags: station.tags ?? "",
+    country: station.country ?? "",
+    countrycode: station.countrycode ?? "",
+    codec: station.codec ?? "",
     geo_lat: station.geo_lat === null || station.geo_lat === undefined ? null : Number(station.geo_lat),
     geo_long: station.geo_long === null || station.geo_long === undefined ? null : Number(station.geo_long),
     bitrate: Number(station.bitrate) || 0,
@@ -51,8 +59,8 @@ export async function searchStations(query: string, limit = 100, signal?: AbortS
 
 export async function getStationsByUuid(uuids: string[]): Promise<RadioStation[]> {
   if (uuids.length === 0) return [];
-  const params = new URLSearchParams({ uuids: uuids.join(",") });
-  const rows = await getJson<RadioStation[]>(`stations/byuuid?${params.toString()}`);
+  const path = uuids.map((uuid) => encodeURIComponent(uuid)).join(",");
+  const rows = await getJson<RadioStation[]>(`stations/byuuid/${path}`);
   return rows.map(normalizeStation);
 }
 
