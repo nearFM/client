@@ -1,5 +1,6 @@
 import "./styles.css";
 import type { AppView, RadioStation } from "./types";
+import type { PlayerSnapshot } from "./components/radio-player";
 import { getPopularStations, getStationsByUuid, hasCoordinates, searchStations } from "./services/radio-browser";
 import { StationMap } from "./components/station-map";
 import { RadioPlayer } from "./components/radio-player";
@@ -384,7 +385,7 @@ function toggleFavorite(uuid: string): void {
   }
 }
 
-function renderPlayer(snapshot: ReturnType<typeof player["snapshotOfNothing"]> | import("./components/radio-player").PlayerSnapshot): void {
+function renderPlayer(snapshot: PlayerSnapshot): void {
   const station = snapshot.station ?? selectedStation;
   const name = byId<HTMLSpanElement>("player-name");
   const detail = byId<HTMLSpanElement>("player-detail");
