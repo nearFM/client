@@ -75,7 +75,7 @@ export class RadioPlayer {
         this.visualizerAvailable = true;
         this.visualizerNote = "LIVE AUDIO ANALYSIS";
         this.emit();
-      } catch (analysisError) {
+      } catch {
         if (token !== this.generation) return;
         this.releaseAudio();
         this.visualizerAvailable = false;
