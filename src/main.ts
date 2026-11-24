@@ -86,7 +86,7 @@ app.innerHTML = `
             </div>
             <div class="map-panel">
               <div id="station-map" class="station-map"></div>
-              <aside class="selected-station-card" id="selected-station-card" aria-live="polite" hidden>
+              <aside class="selected-station-info" id="selected-station-info" aria-live="polite" hidden>
                 <div class="selected-station-art" id="selected-station-art"></div>
                 <div class="selected-station-copy">
                   <strong id="selected-station-name"></strong>
@@ -298,7 +298,7 @@ function renderStations(): void {
 }
 
 function renderSelectedStation(): void {
-  const card = byId<HTMLElement>("selected-station-card");
+  const card = byId<HTMLElement>("selected-station-info");
   if (!selectedStation) {
     card.hidden = true;
     return;
