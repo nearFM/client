@@ -313,10 +313,10 @@ function toggleFavorite(uuid: string): void {
 }
 
 function renderPlayer(snapshot: PlayerSnapshot): void {
-  const station = snapshot.station ?? selectedStation;
+  const station = selectedStation ?? snapshot.station;
   byId<HTMLSpanElement>("player-name").textContent = station?.name ?? "Nothing selected";
   byId<HTMLSpanElement>("player-detail").textContent = station
-    ? [station.country || "Unknown location", station.codec || "Internet radio", station.bitrate ? snapshot.station?.bitrate + " kbps" : ""].filter(Boolean).join(" · ")
+    ? [station.country || "Unknown location", station.codec || "Internet radio", station.bitrate ? station.bitrate + " kbps" : ""].filter(Boolean).join(" · ")
     : "Choose a station";
   const art = byId<HTMLDivElement>("player-art");
   const image = station ? safeImageUrl(station.favicon) : "";
