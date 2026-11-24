@@ -48,7 +48,7 @@ app.innerHTML = `
         <form class="search-form" id="search-form" role="search">
           <label class="sr-only" for="station-search">Search radio stations</label>
           <span class="search-icon">${icon.search}</span>
-          <input id="station-search" name="q" type="search" placeholder="Search stations, countries, sounds…" autocomplete="off" />
+          <input id="station-search" name="q" type="search" placeholder="Search station names…" autocomplete="off" />
           <kbd>ENTER</kbd>
         </form>
         <button class="icon-button refresh-button" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">${icon.refresh}</button>
@@ -89,7 +89,7 @@ app.innerHTML = `
             </div>
             <div class="panel-foot">
               <span>DATA FROM RADIO BROWSER</span>
-              <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">RADIO BROWSER ↗</a>
+              <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">RADIO BROWSER</a>
             </div>
           </div>
 
