@@ -45,10 +45,13 @@ npm run preview
 ## Data and services
 
 - Station metadata and resolved stream URLs: [Radio Browser](https://www.radio-browser.info/)
-- Map tiles: [CARTO](https://carto.com/attributions/) based on OpenStreetMap data
-- Map library: [Leaflet](https://leafletjs.com/)
+- Map tiles: [OpenStreetMap](https://www.openstreetmap.org/copyright)
+- Map library: [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/)
+- Map appearance presets: Night, Standard, Muted, and Monochrome (client-side raster styling)
 
 Radio Browser is a community service provided without an uptime guarantee. The client uses the `all.api.radio-browser.info` endpoint and handles directory failures in the UI.
+
+The map uses the standard OpenStreetMap raster tile service. Keep the visible OpenStreetMap attribution and follow the [tile usage policy](https://operations.osmfoundation.org/policies/tiles/); this public tile service is not an unlimited or guaranteed production tile-hosting service. The map appearance presets adjust the same raster layer locally and do not represent separate data providers.
 
 A station's coordinates may be missing, so not every station appears on the map. A stream may play normally while blocking Web Audio analysis through its cross-origin policy; in that case the client falls back to direct playback and disables the visualizer for that station.
 
