@@ -1622,12 +1622,12 @@
       },
       "paint": {
         "line-blur": 0,
-        "line-color": "#777777",
+        "line-color": "#303030",
         "line-dasharray": [
           2,
           2
         ],
-        "line-opacity": 0.9,
+        "line-opacity": 0.55,
         "line-width": [
           "interpolate",
           [
@@ -1638,9 +1638,9 @@
             "zoom"
           ],
           3,
-          1,
+          0.5,
           22,
-          15
+          4
         ]
       }
     },
@@ -1674,8 +1674,8 @@
       },
       "paint": {
         "line-blur": 0,
-        "line-color": "#777777",
-        "line-opacity": 0.9,
+        "line-color": "#505050",
+        "line-opacity": 0.7,
         "line-width": [
           "interpolate",
           [
@@ -1686,9 +1686,9 @@
             "zoom"
           ],
           3,
-          1,
+          0.7,
           22,
-          20
+          8
         ]
       }
     },
@@ -1712,8 +1712,8 @@
       },
       "paint": {
         "line-blur": 0,
-        "line-color": "#777777",
-        "line-opacity": 0.9,
+        "line-color": "#505050",
+        "line-opacity": 0.7,
         "line-width": [
           "interpolate",
           [
@@ -1724,9 +1724,9 @@
             "zoom"
           ],
           3,
-          1,
+          0.7,
           22,
-          20
+          8
         ]
       }
     },
@@ -2454,7 +2454,8 @@
         "text-color": "#b8b8b8",
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 4.5
     },
     {
       "id": "place_country_minor",
@@ -2485,7 +2486,7 @@
           "country"
         ],
         [
-          ">=",
+          "==",
           [
             "get",
             "rank"
@@ -2550,7 +2551,8 @@
         "text-color": "#b8b8b8",
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 4.5
     },
     {
       "id": "place_country_major",
