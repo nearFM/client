@@ -666,3 +666,76 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
   .volume-control input { width: 55px; }
   .volume-icon svg { width: 15px; height: 15px; }
 }
+
+
+/* Sketch-driven station selection bridge */
+.map-panel { overflow: visible; }
+.station-map { overflow: hidden; }
+.selected-station-card {
+  position: absolute;
+  z-index: 650;
+  top: 50%;
+  left: -116px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  width: 252px;
+  min-height: 68px;
+  padding: 8px;
+  color: var(--text);
+  background: #20252d;
+  border: 1px solid #6b7788;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .34);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.selected-station-card[hidden] { display: none; }
+.selected-station-art {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
+  color: #d5e0ef;
+  background: #303946;
+  border: 1px solid #414b59;
+  font-size: 11px;
+}
+.selected-station-art img { width: 100%; height: 100%; object-fit: cover; }
+.selected-station-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.selected-station-kicker {
+  color: #91a0b3;
+  font: 8px/1 "Segoe UI", sans-serif;
+  letter-spacing: .13em;
+}
+.selected-station-copy strong {
+  overflow: hidden;
+  color: #f0f2f6;
+  font-size: 11px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.selected-station-copy > span:last-child {
+  overflow: hidden;
+  color: #9ba6b5;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .map-panel { overflow: hidden; }
+  .selected-station-card {
+    top: 46px;
+    left: 50%;
+    width: min(252px, calc(100% - 24px));
+    transform: translateX(-50%);
+  }
+}
