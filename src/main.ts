@@ -2,7 +2,7 @@ import "./styles.css";
 import type { AppView, RadioStation } from "./types";
 import type { PlayerSnapshot } from "./components/radio-player";
 import { getPopularStations, getStationsByUuid, hasCoordinates, searchStations } from "./services/radio-browser";
-import { StationMap, type MapStylePreset } from "./components/station-map";
+import { StationMap } from "./components/station-map";
 import { RadioPlayer } from "./components/radio-player";
 import { Visualizer } from "./components/visualizer";
 
@@ -23,7 +23,6 @@ app.innerHTML = `
     <aside class="sidebar">
       <div class="sidebar-top">
         <a class="wordmark" href="#" aria-label="nearFM">nearFM</a>
-        <div class="sidebar-caption">WORLD RADIO DIRECTORY</div>
         <nav class="primary-nav" aria-label="Library">
           <button class="nav-item is-active" type="button" data-view="discover"><span class="nav-mark"></span>Discover</button>
           <button class="nav-item" type="button" data-view="stations"><span class="nav-mark"></span>All stations</button>
@@ -59,7 +58,6 @@ app.innerHTML = `
         <div class="player-heading">
           <span class="live-mark" id="live-mark"></span>
           <span id="play-state">READY</span>
-          <span class="player-heading-label">ON AIR</span>
         </div>
         <div class="player-station">
           <div class="station-art" id="player-art"><span>FM</span></div>
@@ -84,30 +82,16 @@ app.innerHTML = `
 
     <main class="world-view">
       <div class="world-topline">
-        <div class="world-label"><span class="world-label-dot"></span>LIVE RADIO MAP</div>
-        <div class="world-count"><span id="map-count">0</span> LOCATED STATIONS</div>
+        <span class="world-count"><span id="map-count">0</span> stations on map</span>
       </div>
       <div class="map-stage">
-        <div class="map-style-control">
-          <label for="map-style-select">MAP STYLE</label>
-          <select id="map-style-select" aria-label="Map style">
-            <option value="night">Night</option>
-            <option value="standard">Standard</option>
-            <option value="muted">Muted</option>
-            <option value="monochrome">Monochrome</option>
-          </select>
-        </div>
         <div id="station-map" class="station-map"></div>
-        <div class="map-instruction">SELECT A POINT TO LISTEN</div>
         <aside class="selected-station-info" id="selected-station-info" aria-live="polite" hidden>
           <span class="selected-station-country" id="selected-station-country"></span>
           <strong id="selected-station-name"></strong>
           <span id="selected-station-detail"></span>
         </aside>
         <div class="map-empty" id="map-empty" hidden>No stations with location data</div>
-      </div>
-      <div class="map-footer">
-        <span>DATA FROM RADIO BROWSER</span>
       </div>
     </main>
   </div>
@@ -398,11 +382,6 @@ byId<HTMLInputElement>("volume-slider").addEventListener("input", (event) => {
   const value = Number(input.value);
   player.setVolume(value);
   byId<HTMLSpanElement>("volume-value").textContent = String(Math.round(value * 100));
-});
-
-byId<HTMLSelectElement>("map-style-select").addEventListener("change", (event) => {
-  const select = event.currentTarget as HTMLSelectElement;
-  stationMap.setStylePreset(select.value as MapStylePreset);
 });
 
 window.addEventListener("resize", () => stationMap.invalidateSize());
