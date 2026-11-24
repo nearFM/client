@@ -36,6 +36,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .favorite-button .mif-star { font-size: 16px; line-height: 1; }
 .volume-icon { display: grid; flex: 0 0 18px; place-items: center; width: 18px; height: 18px; }
 .volume-icon .mif-volume-high { font-size: 18px; line-height: 1; }
+.volume-icon img { display: block; width: 18px; height: 18px; object-fit: contain; filter: invert(1); }
 .play-button .mif-play, .play-button .mif-pause { font-size: 18px; line-height: 1; }
 .search-form { display: flex; flex: 0 0 42px; align-self: stretch; align-items: center; gap: 12px; width: 100%; min-width: 0; height: 42px; margin-top: 18px; padding: 0 8px; border: 1px solid #666; background: transparent; }
 .search-form:focus-within { border-color: var(--accent); }
