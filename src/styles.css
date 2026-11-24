@@ -35,10 +35,11 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .favorite-button .mif-star { font-size: 16px; }
 .volume-icon .mif-volume-high { font-size: 17px; }
 .play-button .mif-play, .play-button .mif-pause { font-size: 16px; }
-.search-form { display: flex; align-items: center; gap: 12px; height: 42px; margin-top: 18px; padding: 0 8px; border: 1px solid #666; background: transparent; }
+.search-form { display: flex; flex: 0 0 42px; align-self: stretch; align-items: center; gap: 12px; width: 100%; min-width: 0; height: 42px; margin-top: 18px; padding: 0 8px; border: 1px solid #666; background: transparent; }
 .search-form:focus-within { border-color: var(--accent); }
-.search-icon { display: grid; place-items: center; color: var(--muted); }
-.search-form input { flex: 1; width: 100%; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; color: var(--text); background: transparent; font-size: 14px; }
+.search-icon { display: grid; flex: 0 0 16px; place-items: center; width: 16px; height: 16px; color: var(--muted); line-height: 1; }
+.search-icon .icons8-search { font-size: 16px; line-height: 1; }
+.search-form input { flex: 1 1 0; width: 0; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; color: var(--text); background: transparent; font-size: 14px; }
 .search-form input::placeholder { color: var(--subtle); }
 .search-form input:focus-visible { outline: 0; }
 .list-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 18px; color: var(--muted); font-size: 12px; }
