@@ -470,7 +470,6 @@ document.querySelectorAll<HTMLButtonElement>("[data-view]").forEach((button) => 
     if (!view) return;
     activeView = view;
     if (view === "favorites") void loadFavoriteStations();
-    else renderView();
     renderView();
   });
 });
