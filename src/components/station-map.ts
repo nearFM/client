@@ -65,7 +65,7 @@ export class StationMap {
       zoom: 2,
       minZoom: 2,
       maxZoom: 12,
-      attributionControl: true,
+      attributionControl: {},
       renderWorldCopies: true
     });
 
