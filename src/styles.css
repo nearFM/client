@@ -31,10 +31,12 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .directory-heading { display: flex; align-items: center; justify-content: space-between; min-height: 38px; color: var(--text); font-size: 26px; font-weight: 300; letter-spacing: -.6px; }
 .icon-button { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; background: transparent; color: var(--muted); cursor: pointer; }
 .icon-button:hover { background: var(--surface-hover); color: var(--text); }
-.icon-button .mif-refresh, .search-icon .mif-search { font-size: 16px; }
-.favorite-button .mif-star { font-size: 16px; }
-.volume-icon .mif-volume-high { font-size: 17px; }
-.play-button .mif-play, .play-button .mif-pause { font-size: 16px; }
+.icon-button > i, .icon-button > span { display: block; font-size: 16px; line-height: 1; }
+.search-icon > i, .search-icon > span { display: block; font-size: 16px; line-height: 1; }
+.favorite-button .mif-star { font-size: 16px; line-height: 1; }
+.volume-icon { display: grid; flex: 0 0 18px; place-items: center; width: 18px; height: 18px; }
+.volume-icon .mif-volume-high { font-size: 18px; line-height: 1; }
+.play-button .mif-play, .play-button .mif-pause { font-size: 18px; line-height: 1; }
 .search-form { display: flex; flex: 0 0 42px; align-self: stretch; align-items: center; gap: 12px; width: 100%; min-width: 0; height: 42px; margin-top: 18px; padding: 0 8px; border: 1px solid #666; background: transparent; }
 .search-form:focus-within { border-color: var(--accent); }
 .search-icon { display: grid; flex: 0 0 16px; place-items: center; width: 16px; height: 16px; color: var(--muted); line-height: 1; }
