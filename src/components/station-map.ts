@@ -94,25 +94,26 @@ export class StationMap {
         }
       });
 
+      this.map.on("click", "station-points", (event) => {
+        const feature = event.features?.[0];
+        const stationId = feature?.properties?.stationuuid;
+        if (typeof stationId !== "string") return;
+        const station = this.stationById.get(stationId);
+        if (station) this.onSelect(station);
+      });
+
+      this.map.on("mouseenter", "station-points", () => {
+        this.map.getCanvas().style.cursor = "pointer";
+      });
+      this.map.on("mouseleave", "station-points", () => {
+        this.map.getCanvas().style.cursor = "";
+      });
+
       this.sourceReady = true;
       this.updateStations();
       this.setStylePreset(this.stylePreset);
     });
 
-    this.map.on("click", "station-points", (event) => {
-      const feature = event.features?.[0];
-      const stationId = feature?.properties?.stationuuid;
-      if (typeof stationId !== "string") return;
-      const station = this.stationById.get(stationId);
-      if (station) this.onSelect(station);
-    });
-
-    this.map.on("mouseenter", "station-points", () => {
-      this.map.getCanvas().style.cursor = "pointer";
-    });
-    this.map.on("mouseleave", "station-points", () => {
-      this.map.getCanvas().style.cursor = "";
-    });
   }
 
   render(stations: RadioStation[], selectedId: string | null): number {
