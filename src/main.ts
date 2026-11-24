@@ -141,7 +141,7 @@ if (!WinJS) throw new Error("WinJS failed to load.");
 let stationListControl: any = null;
 let hubControl: any = null;
 const stationMapElement = byId<HTMLDivElement>("station-map");
-const workspace = byId<HTMLElement>("station-workspace");
+const workspace = byId<HTMLElement>("radio-hub");
 const searchInput = byId<HTMLInputElement>("station-search");
 const sortSelect = byId<HTMLSelectElement>("sort-select");
 const networkLabel = byId<HTMLSpanElement>("network-label");
