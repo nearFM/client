@@ -12,7 +12,7 @@ const icon = {
   play: '<span class="mif-play" aria-hidden="true"></span>',
   pause: '<span class="mif-pause" aria-hidden="true"></span>',
   refresh: '<i class="icons8-refresh" aria-hidden="true"></i>',
-  volume: '<span class="mif-volume-high" aria-hidden="true"></span>'
+  volume: '<img src="https://img.icons8.com/win10/1200/speaker.jpg" alt="" aria-hidden="true">'
 };
 
 const app = document.querySelector<HTMLDivElement>("#app");
