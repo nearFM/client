@@ -1673,12 +1673,22 @@
             "has",
             "claimed_by"
           ]
+        ],
+        [
+          "!",
+          [
+            "==",
+            [
+              "get",
+              "maritime"
+            ],
+            1
+          ]
         ]
       ],
       "layout": {
         "line-cap": "round",
-        "line-join": "round",
-        "visibility": "none"
+        "line-join": "round"
       },
       "paint": {
         "line-blur": 0,
@@ -1707,17 +1717,30 @@
       "source-layer": "boundary",
       "minzoom": 5,
       "filter": [
-        "==",
+        "all",
         [
-          "get",
-          "admin_level"
+          "==",
+          [
+            "get",
+            "admin_level"
+          ],
+          2
         ],
-        2
+        [
+          "!",
+          [
+            "==",
+            [
+              "get",
+              "maritime"
+            ],
+            1
+          ]
+        ]
       ],
       "layout": {
         "line-cap": "round",
-        "line-join": "round",
-        "visibility": "none"
+        "line-join": "round"
       },
       "paint": {
         "line-blur": 0,
