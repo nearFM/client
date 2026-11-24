@@ -383,9 +383,9 @@ function renderVolumeIcon(value: number): void {
 
   const iconUrl = value === 0
     ? "https://img.icons8.com/?size=100&id=15993&format=png&color=000000"
-    : value >= 0.76
+    : value >= 2 / 3
       ? "https://img.icons8.com/?size=100&id=15992&format=png&color=000000"
-      : value >= 0.51
+      : value >= 1 / 3
         ? "https://img.icons8.com/?size=100&id=22778&format=png&color=000000"
         : "https://img.icons8.com/?size=100&id=15991&format=png&color=000000";
 
