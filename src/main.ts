@@ -393,13 +393,20 @@ function renderVolumeIcon(value: number): void {
 }
 
 const volumeSlider = byId<HTMLInputElement>("volume-slider");
+
+function renderVolumeSlider(value: number): void {
+  volumeSlider.style.setProperty("--volume-progress", (value * 100) + "%");
+}
+
 renderVolumeIcon(Number(volumeSlider.value));
+renderVolumeSlider(Number(volumeSlider.value));
 volumeSlider.addEventListener("input", (event) => {
   const input = event.currentTarget as HTMLInputElement;
   const value = Number(input.value);
   player.setVolume(value);
   byId<HTMLSpanElement>("volume-value").textContent = String(Math.round(value * 100));
   renderVolumeIcon(value);
+  renderVolumeSlider(value);
 });
 
 window.addEventListener("resize", () => stationMap.invalidateSize());
