@@ -25,10 +25,10 @@ const BASE_STYLE: StyleSpecification = {
       type: "raster",
       source: "openstreetmap",
       paint: {
-        "raster-saturation": 0,
-        "raster-contrast": 0,
+        "raster-saturation": -1,
+        "raster-contrast": 0.12,
         "raster-brightness-min": 0,
-        "raster-brightness-max": 1
+        "raster-brightness-max": 0.42
       }
     }
   ]
