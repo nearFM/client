@@ -71,9 +71,9 @@ export class StationMap {
         source: "stations",
         paint: {
           "circle-radius": ["case", ["boolean", ["get", "selected"], false], 7, 4],
-          "circle-color": ["case", ["boolean", ["get", "selected"], false], "#ffffff", "#e5a52d"],
+          "circle-color": ["case", ["boolean", ["get", "selected"], false], "#ffffff", "#888888"],
           "circle-stroke-width": ["case", ["boolean", ["get", "selected"], false], 2, 1],
-          "circle-stroke-color": "#ffffff",
+          "circle-stroke-color": "#111111",
           "circle-opacity": 0.96,
           "circle-blur": 0.12
         }
