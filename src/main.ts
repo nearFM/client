@@ -466,7 +466,7 @@ byId<HTMLButtonElement>("play-button").addEventListener("click", () => {
   else void player.play(target);
 });
 
-function renderVolumeIcon(value: number): void {
+function renderVolumeIcon(): void {
   const image = document.querySelector<HTMLImageElement>(".volume-icon img");
   if (!image) return;
 
@@ -481,14 +481,14 @@ function renderVolumeSlider(value: number): void {
   volumeSlider.style.setProperty("--volume-progress", (value * 100) + "%");
 }
 
-renderVolumeIcon(Number(volumeSlider.value));
+renderVolumeIcon();
 renderVolumeSlider(Number(volumeSlider.value));
 volumeSlider.addEventListener("input", (event) => {
   const input = event.currentTarget as HTMLInputElement;
   const value = Number(input.value);
   player.setVolume(value);
   byId<HTMLSpanElement>("volume-value").textContent = String(Math.round(value * 100));
-  renderVolumeIcon(value);
+  renderVolumeIcon();
   renderVolumeSlider(value);
 });
 
