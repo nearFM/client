@@ -12,7 +12,7 @@ const icon = {
   play: '<span class="mif-play" aria-hidden="true"></span>',
   pause: '<span class="mif-pause" aria-hidden="true"></span>',
   refresh: '<i class="icons8-refresh" aria-hidden="true"></i>',
-  volume: '<img src="https://img.icons8.com/?size=100&id=PXS9WdRlqCPq&format=png&color=000000" alt="" aria-hidden="true">'
+  volume: '<img src="https://img.icons8.com/?size=100&id=15992&format=png&color=000000" alt="" aria-hidden="true">'
 };
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -466,13 +466,12 @@ byId<HTMLButtonElement>("play-button").addEventListener("click", () => {
   else void player.play(target);
 });
 
-function renderVolumeIcon(): void {
+function renderVolumeIcon(value: number): void {
   const image = document.querySelector<HTMLImageElement>(".volume-icon img");
   if (!image) return;
 
-  const iconUrl = "https://img.icons8.com/?size=100&id=PXS9WdRlqCPq&format=png&color=000000";
-
-  image.src = iconUrl;
+  const iconId = value === 0 ? 15993 : value >= 2 / 3 ? 15992 : value >= 1 / 3 ? 22778 : 15991;
+  image.src = "https://img.icons8.com/?size=100&id=" + iconId + "&format=png&color=000000";
 }
 
 const volumeSlider = byId<HTMLInputElement>("volume-slider");
@@ -481,14 +480,14 @@ function renderVolumeSlider(value: number): void {
   volumeSlider.style.setProperty("--volume-progress", (value * 100) + "%");
 }
 
-renderVolumeIcon();
+renderVolumeIcon(Number(volumeSlider.value));
 renderVolumeSlider(Number(volumeSlider.value));
 volumeSlider.addEventListener("input", (event) => {
   const input = event.currentTarget as HTMLInputElement;
   const value = Number(input.value);
   player.setVolume(value);
   byId<HTMLSpanElement>("volume-value").textContent = String(Math.round(value * 100));
-  renderVolumeIcon();
+  renderVolumeIcon(value);
   renderVolumeSlider(value);
 });
 
