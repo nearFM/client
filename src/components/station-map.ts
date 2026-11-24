@@ -12,23 +12,23 @@ interface StationFeatureProperties {
 const BASE_STYLE: StyleSpecification = {
   version: 8,
   sources: {
-    openstreetmap: {
+    carto: {
       type: "raster",
-      tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+      tiles: ["https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"],
       tileSize: 256,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
     }
   },
   layers: [
     {
-      id: "osm-raster",
+      id: "carto-dark",
       type: "raster",
-      source: "openstreetmap",
+      source: "carto",
       paint: {
         "raster-saturation": -1,
-        "raster-contrast": 0.12,
+        "raster-contrast": 0.18,
         "raster-brightness-min": 0,
-        "raster-brightness-max": 0.42
+        "raster-brightness-max": 0.82
       }
     }
   ]
