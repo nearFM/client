@@ -44,11 +44,21 @@ app.innerHTML = `
           <span id="station-count">Loading stations</span>
           <span class="network-state"><i id="network-indicator"></i><span id="network-label">Connecting</span></span>
         </div>
-        <label class="sr-only" for="sort-select">Sort stations</label>
-        <select id="sort-select" class="sort-select">
-          <option value="popular">Most popular</option>
-          <option value="name">Station name</option>
-        </select>
+        <label class="sr-only" id="sort-label">Sort stations</label>
+        <div class="sort-dropdown" id="sort-dropdown">
+          <select id="sort-select" class="sort-select-native" tabindex="-1" aria-hidden="true">
+            <option value="popular">Most popular</option>
+            <option value="name">Station name</option>
+          </select>
+          <button class="sort-trigger" id="sort-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="sort-label sort-value">
+            <span id="sort-value">Most popular</span>
+            <span class="sort-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="sort-menu" id="sort-menu" role="listbox" aria-labelledby="sort-label" hidden>
+            <button class="sort-option is-selected" type="button" role="option" aria-selected="true" data-sort-value="popular">Most popular</button>
+            <button class="sort-option" type="button" role="option" aria-selected="false" data-sort-value="name">Station name</button>
+          </div>
+        </div>
         <div class="station-list" id="station-list" aria-label="Radio stations"></div>
         <div class="list-message" id="list-message">Connecting to Radio Browser…</div>
         <div class="source-line">Directory data by <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">Radio Browser</a></div>
@@ -367,7 +377,76 @@ byId<HTMLButtonElement>("refresh-button").addEventListener("click", () => {
   else void loadStations(searchInput.value.trim());
 });
 
-sortSelect.addEventListener("change", renderStations);
+const sortDropdown = byId<HTMLDivElement>("sort-dropdown");
+const sortTrigger = byId<HTMLButtonElement>("sort-trigger");
+const sortMenu = byId<HTMLDivElement>("sort-menu");
+const sortValue = byId<HTMLSpanElement>("sort-value");
+
+function setSortMenuOpen(open: boolean): void {
+  sortMenu.hidden = !open;
+  sortTrigger.setAttribute("aria-expanded", String(open));
+  if (open) {
+    sortMenu.querySelector<HTMLButtonElement>('[data-sort-value="' + sortSelect.value + '"]')?.focus();
+  }
+}
+
+function syncSortMenu(): void {
+  const selected = sortMenu.querySelector<HTMLButtonElement>('[data-sort-value="' + sortSelect.value + '"]');
+  sortValue.textContent = selected?.textContent ?? "Most popular";
+  sortMenu.querySelectorAll<HTMLButtonElement>("[data-sort-value]").forEach((option) => {
+    const active = option.dataset.sortValue === sortSelect.value;
+    option.classList.toggle("is-selected", active);
+    option.setAttribute("aria-selected", String(active));
+  });
+}
+
+sortTrigger.addEventListener("click", () => {
+  setSortMenuOpen(sortMenu.hidden);
+});
+
+sortMenu.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  const option = target.closest<HTMLButtonElement>("[data-sort-value]");
+  if (!option?.dataset.sortValue) return;
+  sortSelect.value = option.dataset.sortValue;
+  sortSelect.dispatchEvent(new Event("change", { bubbles: true }));
+  syncSortMenu();
+  setSortMenuOpen(false);
+  sortTrigger.focus();
+});
+
+sortMenu.addEventListener("keydown", (event) => {
+  const options = [...sortMenu.querySelectorAll<HTMLButtonElement>("[data-sort-value]")];
+  const current = options.indexOf(document.activeElement as HTMLButtonElement);
+  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    event.preventDefault();
+    const direction = event.key === "ArrowDown" ? 1 : -1;
+    options[(current + direction + options.length) % options.length]?.focus();
+  } else if (event.key === "Escape") {
+    event.preventDefault();
+    setSortMenuOpen(false);
+    sortTrigger.focus();
+  }
+});
+
+document.addEventListener("pointerdown", (event) => {
+  if (!sortDropdown.contains(event.target as Node)) setSortMenuOpen(false);
+});
+
+sortTrigger.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setSortMenuOpen(false);
+  if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    setSortMenuOpen(true);
+  }
+});
+
+sortSelect.addEventListener("change", () => {
+  syncSortMenu();
+  renderStations();
+});
+syncSortMenu();
 
 byId<HTMLButtonElement>("play-button").addEventListener("click", () => {
   const current = player.snapshot.station;
