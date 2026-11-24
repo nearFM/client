@@ -12,7 +12,7 @@ const icon = {
   play: '<span class="mif-play" aria-hidden="true"></span>',
   pause: '<span class="mif-pause" aria-hidden="true"></span>',
   refresh: '<i class="icons8-refresh" aria-hidden="true"></i>',
-  volume: '<img src="https://img.icons8.com/win10/1200/audio.jpg" alt="" aria-hidden="true">'
+  volume: '<img src="https://img.icons8.com/?size=100&id=15992&format=png&color=000000" alt="" aria-hidden="true">'
 };
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -381,13 +381,13 @@ function renderVolumeIcon(value: number): void {
   const image = document.querySelector<HTMLImageElement>(".volume-icon img");
   if (!image) return;
 
-  const iconUrl = value <= 0
-    ? "https://img.icons8.com/win10/1200/speaker.jpg"
-    : value <= 0.33
-      ? "https://img.icons8.com/win10/1200/low-volume.jpg"
-      : value <= 0.66
-        ? "https://img.icons8.com/win10/1200/sound-speaker.jpg"
-        : "https://img.icons8.com/win10/1200/audio.jpg";
+  const iconUrl = value >= 0.76
+    ? "https://img.icons8.com/?size=100&id=15992&format=png&color=000000"
+    : value >= 0.51
+      ? "https://img.icons8.com/?size=100&id=22778&format=png&color=000000"
+      : value >= 0.26
+        ? "https://img.icons8.com/?size=100&id=15991&format=png&color=000000"
+        : "https://img.icons8.com/?size=100&id=15993&format=png&color=000000";
 
   image.src = iconUrl;
 }
