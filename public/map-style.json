@@ -1813,7 +1813,8 @@
         "text-halo-blur": 1,
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 12
     },
     {
       "id": "place_suburb",
@@ -1892,7 +1893,8 @@
         "text-halo-blur": 1,
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 11
     },
     {
       "id": "place_village",
@@ -1973,7 +1975,8 @@
         "text-halo-blur": 1,
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 9
     },
     {
       "id": "place_town",
@@ -2071,7 +2074,8 @@
         "text-halo-blur": 1,
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 8
     },
     {
       "id": "place_city",
@@ -2177,7 +2181,8 @@
         "text-halo-blur": 1,
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 6
     },
     {
       "id": "place_city_large",
@@ -2283,7 +2288,8 @@
         "text-halo-blur": 1,
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 4
     },
     {
       "id": "place_state",
@@ -2356,14 +2362,15 @@
         "text-halo-blur": 1,
         "text-halo-color": "#080808",
         "text-halo-width": 1.2
-      }
+      },
+      "minzoom": 4
     },
     {
       "id": "place_country_other",
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "place",
-      "maxzoom": 8,
+      "maxzoom": 6,
       "filter": [
         "all",
         [
@@ -2454,7 +2461,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "place",
-      "maxzoom": 8,
+      "maxzoom": 6,
       "filter": [
         "all",
         [
