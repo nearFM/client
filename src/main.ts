@@ -107,7 +107,6 @@ app.innerHTML = `
         <div class="map-empty" id="map-empty" hidden>No stations with location data</div>
       </div>
       <div class="map-footer">
-        <span>EARTH / 01</span>
         <span>DATA FROM RADIO BROWSER</span>
       </div>
     </main>
