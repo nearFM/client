@@ -524,7 +524,7 @@ byId<HTMLInputElement>("volume-slider").addEventListener("input", (event) => {
 window.addEventListener("resize", () => stationMap.invalidateSize());
 
 void WinJS.UI.processAll().then(() => {
-  hubControl = byId<HTMLElement>("radio-hub").winControl;
+  hubControl = (byId<HTMLElement>("radio-hub") as HTMLElement & { winControl: any }).winControl;
   stationListControl = new WinJS.UI.GridView(stationList, {
     layout: { type: WinJS.UI.GridLayout, maxRows: 3 },
     selectionMode: "none",
