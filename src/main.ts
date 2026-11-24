@@ -2,7 +2,7 @@ import "./styles.css";
 import type { AppView, RadioStation } from "./types";
 import type { PlayerSnapshot } from "./components/radio-player";
 import { getPopularStations, getStationsByUuid, hasCoordinates, searchStations } from "./services/radio-browser";
-import { StationMap } from "./components/station-map";
+import { StationMap, type MapStylePreset } from "./components/station-map";
 import { RadioPlayer } from "./components/radio-player";
 import { Visualizer } from "./components/visualizer";
 
@@ -88,6 +88,15 @@ app.innerHTML = `
         <div class="world-count"><span id="map-count">0</span> LOCATED STATIONS</div>
       </div>
       <div class="map-stage">
+        <div class="map-style-control">
+          <label for="map-style-select">MAP STYLE</label>
+          <select id="map-style-select" aria-label="Map style">
+            <option value="night">Night</option>
+            <option value="standard">Standard</option>
+            <option value="muted">Muted</option>
+            <option value="monochrome">Monochrome</option>
+          </select>
+        </div>
         <div id="station-map" class="station-map"></div>
         <div class="map-instruction">SELECT A POINT TO LISTEN</div>
         <aside class="selected-station-info" id="selected-station-info" aria-live="polite" hidden>
@@ -390,6 +399,11 @@ byId<HTMLInputElement>("volume-slider").addEventListener("input", (event) => {
   const value = Number(input.value);
   player.setVolume(value);
   byId<HTMLSpanElement>("volume-value").textContent = String(Math.round(value * 100));
+});
+
+byId<HTMLSelectElement>("map-style-select").addEventListener("change", (event) => {
+  const select = event.currentTarget as HTMLSelectElement;
+  stationMap.setStylePreset(select.value as MapStylePreset);
 });
 
 window.addEventListener("resize", () => stationMap.invalidateSize());

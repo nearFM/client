@@ -102,15 +102,18 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible { 
 .world-count span { color:#e3e7e9; font-variant-numeric:tabular-nums; }
 .map-stage { position:relative; flex:1; min-width:0; min-height:0; }
 .station-map { position:absolute; inset:0; background:#0d1115; }
-.leaflet-container { background:#0d1115; font-family:inherit; }
-.leaflet-control-attribution { padding:2px 5px!important; color:#727d83!important; background:rgba(13,17,21,.65)!important; font-size:8px!important; }
-.leaflet-control-attribution a { color:#aab4ba!important; }
-.leaflet-control-zoom { overflow:hidden; border:0!important; border-radius:0!important; box-shadow:none!important; }
-.leaflet-control-zoom a { width:29px!important; height:29px!important; color:#d9dfe2!important; background:#20272c!important; border:0!important; border-bottom:1px solid #3a4247!important; line-height:29px!important; }
-.leaflet-control-zoom a:hover { color:#fff!important; background:#303a40!important; }
-.station-pin-host { background:transparent; border:0; }
-.station-pin { display:block; width:7px; height:7px; background:#e5a52d; border:1px solid rgba(255,255,255,.9); border-radius:50%; box-shadow:0 0 0 2px rgba(229,165,45,.18),0 0 10px rgba(229,165,45,.38); transition:transform 120ms ease,background 120ms ease; }
-.station-pin-host:hover .station-pin,.station-pin.is-selected { width:12px; height:12px; margin:-2.5px; background:#fff; border:2px solid var(--accent); box-shadow:0 0 0 5px rgba(229,165,45,.2),0 0 16px rgba(229,165,45,.6); }
+.maplibregl-map { background:#0d1115; font-family:inherit; }
+.maplibregl-ctrl-attrib { padding:2px 5px!important; color:#727d83!important; background:rgba(13,17,21,.78)!important; font-size:8px!important; }
+.maplibregl-ctrl-attrib a { color:#aab4ba!important; }
+.maplibregl-ctrl-group { overflow:hidden; border:0!important; border-radius:0!important; background:#20272c!important; box-shadow:none!important; }
+.maplibregl-ctrl-group button { width:29px!important; height:29px!important; background-color:#20272c!important; }
+.maplibregl-ctrl-group button+button { border-top:1px solid #3a4247!important; }
+.maplibregl-ctrl-group button:hover { background-color:#303a40!important; }
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon { filter:invert(1); }
+.map-style-control { position:absolute; z-index:460; top:67px; right:34px; display:flex; align-items:center; gap:10px; padding:7px 9px; color:#aab4ba; background:rgba(20,25,29,.88); font-size:8px; letter-spacing:1px; }
+.map-style-control label { white-space:nowrap; }
+.map-style-control select { min-width:104px; padding:3px 20px 3px 5px; border:0; border-bottom:1px solid #59636a; border-radius:0; color:#f1f3f4; background:#20272c; font-size:10px; cursor:pointer; }
+
 .map-instruction { position:absolute; z-index:400; right:35px; bottom:35px; color:#879197; font-size:8px; letter-spacing:1.2px; pointer-events:none; }
 .selected-station-info { position:absolute; z-index:410; bottom:31px; left:35px; display:flex; flex-direction:column; gap:5px; max-width:min(440px,calc(100% - 70px)); color:#f2f4f5; text-shadow:0 1px 8px rgba(0,0,0,.9); pointer-events:none; }
 .selected-station-info[hidden] { display:none; }
@@ -146,6 +149,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible { 
   .world-view { min-height:70vh; }
   .map-stage { min-height:65vh; }
   .world-topline { top:20px; right:17px; left:17px; }
+  .map-style-control { top:54px; right:17px; }
   .map-instruction { right:17px; bottom:18px; }
   .selected-station-info { bottom:18px; left:17px; }
   .selected-station-info strong { font-size:19px; }
