@@ -22,33 +22,36 @@ app.innerHTML = `
   <div class="app-shell">
     <header class="app-header">
       <a class="wordmark" href="#" aria-label="nearFM">nearFM</a>
-      <nav class="view-tabs" aria-label="Library">
+      <nav class="view-tabs" aria-label="Station views">
         <button class="view-tab is-active" type="button" data-view="discover" aria-current="page">Discover</button>
-        <button class="view-tab" type="button" data-view="stations">Stations</button>
+        <button class="view-tab" type="button" data-view="stations">All stations</button>
         <button class="view-tab" type="button" data-view="favorites">Favorites</button>
       </nav>
-      <form class="search-form" id="search-form" role="search">
-        <label class="sr-only" for="station-search">Search stations</label>
-        <span class="search-icon">${icon.search}</span>
-        <input id="station-search" name="q" type="search" placeholder="Search stations" autocomplete="off" />
-        <kbd>ENTER</kbd>
-      </form>
-      <button class="header-command" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">${icon.refresh}</button>
+      <div class="header-tools">
+        <form class="search-form" id="search-form" role="search">
+          <label class="sr-only" for="station-search">Search stations</label>
+          <span class="search-icon">${icon.search}</span>
+          <input id="station-search" name="q" type="search" placeholder="Find a station" autocomplete="off" />
+        </form>
+        <button class="header-command" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">${icon.refresh}</button>
+      </div>
     </header>
 
     <main class="main-content">
-      <div class="hub-title-row">
-        <h1 id="content-title">Discover radio</h1>
+      <div class="panorama-heading">
+        <div>
+          <h1 id="content-title">Discover</h1>
+          <p class="panorama-subtitle">Radio from around the world</p>
+        </div>
         <div class="directory-state" aria-live="polite">
           <span class="network-indicator" id="network-indicator"></span>
           <span id="network-label">Connecting</span>
         </div>
       </div>
-
       <div class="radio-hub" id="radio-hub" data-win-control="WinJS.UI.Hub">
         <section class="hub-section stations-section" id="stations-section"
           data-win-control="WinJS.UI.HubSection"
-          data-win-options="{ header: 'Stations', isHeaderStatic: true }">
+          data-win-options="{ header: 'Radio stations', isHeaderStatic: true }">
           <div class="hub-section-content">
             <div class="section-toolbar">
               <div class="section-count">
@@ -74,7 +77,7 @@ app.innerHTML = `
 
         <section class="hub-section map-section" id="map-section"
           data-win-control="WinJS.UI.HubSection"
-          data-win-options="{ header: 'World map', isHeaderStatic: true }">
+          data-win-options="{ header: 'Explore the world', isHeaderStatic: true }">
           <div class="hub-section-content map-section-content">
             <div class="map-toolbar">
               <span id="map-count">0 stations on map</span>
@@ -218,31 +221,27 @@ function createStationItem(itemPromise: any): Promise<HTMLElement> {
     const favorite = favoriteIds.includes(station.stationuuid);
     const selected = selectedStation?.stationuuid === station.stationuuid;
     const image = safeImageUrl(station.favicon);
-    const row = document.createElement("div");
-    row.className = `station-row${selected ? " is-selected" : ""}`;
-    row.dataset.stationRow = station.stationuuid;
+    const tile = document.createElement("div");
+    tile.className = `station-tile${selected ? " is-selected" : ""}`;
+    tile.dataset.stationRow = station.stationuuid;
 
     const select = document.createElement("button");
     select.className = "station-select";
     select.type = "button";
     select.dataset.select = station.stationuuid;
-    select.setAttribute("aria-label", `Select ${station.name}`);
+    select.setAttribute("aria-label", `Tune in to ${station.name}`);
 
-    const index = document.createElement("span");
-    index.className = "station-index";
-    index.textContent = String(item.index + 1).padStart(2, "0");
-
-    const avatar = document.createElement("span");
-    avatar.className = "station-avatar";
+    const art = document.createElement("span");
+    art.className = "station-tile-art";
     if (image) {
       const img = document.createElement("img");
       img.src = image;
       img.alt = "";
       img.loading = "lazy";
       img.referrerPolicy = "no-referrer";
-      avatar.append(img);
+      art.append(img);
     } else {
-      avatar.textContent = stationInitials(station.name);
+      art.textContent = stationInitials(station.name);
     }
 
     const copy = document.createElement("span");
@@ -250,14 +249,9 @@ function createStationItem(itemPromise: any): Promise<HTMLElement> {
     const name = document.createElement("strong");
     name.textContent = station.name || "Unnamed station";
     const detail = document.createElement("span");
-    const tags = station.tags.split(",").map((tag) => tag.trim()).filter(Boolean).slice(0, 2).join(" · ");
-    detail.textContent = [station.country || "Unknown country", tags].filter(Boolean).join(" · ");
+    detail.textContent = [station.country || "Unknown country", station.codec || "Internet radio"].filter(Boolean).join(" · ");
     copy.append(name, detail);
-
-    const codec = document.createElement("span");
-    codec.className = "station-format";
-    codec.textContent = station.codec || "RADIO";
-    select.append(index, avatar, copy, codec);
+    select.append(art, copy);
 
     const favoriteButton = document.createElement("button");
     favoriteButton.className = `favorite-button${favorite ? " is-favorite" : ""}`;
@@ -266,8 +260,8 @@ function createStationItem(itemPromise: any): Promise<HTMLElement> {
     favoriteButton.setAttribute("aria-label", `${favorite ? "Remove from" : "Add to"} favorites`);
     favoriteButton.setAttribute("aria-pressed", String(favorite));
     favoriteButton.innerHTML = icon.star;
-    row.append(select, favoriteButton);
-    return row;
+    tile.append(select, favoriteButton);
+    return tile;
   });
 }
 
@@ -316,8 +310,8 @@ function renderSelectedStation(): void {
 
 function renderView(): void {
   const titles: Record<AppView, string> = {
-    discover: "Discover radio",
-    stations: "Stations",
+    discover: "Discover",
+    stations: "All stations",
     favorites: "Favorites"
   };
   byId<HTMLHeadingElement>("content-title").textContent = titles[activeView];
@@ -531,8 +525,8 @@ window.addEventListener("resize", () => stationMap.invalidateSize());
 
 void WinJS.UI.processAll().then(() => {
   hubControl = byId<HTMLElement>("radio-hub").winControl;
-  stationListControl = new WinJS.UI.ListView(stationList, {
-    layout: { type: WinJS.UI.ListLayout },
+  stationListControl = new WinJS.UI.GridView(stationList, {
+    layout: { type: WinJS.UI.GridLayout, maxRows: 3 },
     selectionMode: "none",
     tapBehavior: "none",
     swipeBehavior: "none",
