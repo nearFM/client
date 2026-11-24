@@ -34,7 +34,11 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible { 
 .directory-heading { display:flex; align-items:center; justify-content:space-between; min-height:29px; color:#f1f2f2; font-size:17px; font-weight:500; letter-spacing:-.35px; }
 .icon-button { display:grid; place-items:center; width:29px; height:29px; padding:0; border:0; background:transparent; color:#9ca4a9; cursor:pointer; }
 .icon-button:hover { color:#fff; background:rgba(255,255,255,.07); }
-.icon-button svg,.search-icon svg,.favorite-button svg,.volume-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.icon-button .mif-refresh { font-size:14px; }
+.search-icon .mif-search { font-size:14px; }
+.favorite-button .mif-star { font-size:13px; }
+.volume-icon .mif-volume-high { font-size:14px; }
+.play-button .mif-play,.play-button .mif-pause { font-size:14px; }
 .search-form { display:flex; align-items:center; gap:9px; height:38px; margin-top:17px; padding:0 1px; border-bottom:1px solid #454c51; }
 .search-form:focus-within { border-color:var(--accent); }
 .search-icon { display:grid; place-items:center; color:#939ba0; }
