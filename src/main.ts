@@ -165,13 +165,29 @@ function safeImageUrl(value: string): string {
 }
 
 const imageFallback = "https://img.icons8.com/?size=100&id=PXS9WdRlqCPq&format=png&color=000000";
+let fallbackImagePromise: Promise<string | null> | null = null;
+
+function loadFallbackImage(): Promise<string | null> {
+  if (!fallbackImagePromise) {
+    fallbackImagePromise = fetch(imageFallback, { cache: "force-cache" })
+      .then((response) => {
+        if (!response.ok) throw new Error("Fallback image request failed.");
+        return response.blob();
+      })
+      .then((blob) => URL.createObjectURL(blob))
+      .catch(() => null);
+  }
+  return fallbackImagePromise;
+}
 
 document.addEventListener("error", (event) => {
   const target = event.target;
   if (!(target instanceof HTMLImageElement) || target.dataset.fallbackApplied === "true") return;
 
   target.dataset.fallbackApplied = "true";
-  target.src = imageFallback;
+  void loadFallbackImage().then((url) => {
+    if (url) target.src = url;
+  });
 }, true);
 
 function stationInitials(name: string): string {
