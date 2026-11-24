@@ -54,7 +54,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible { 
 .radio-hub .win-hub-section-header-chevron { display:none; }
 .radio-hub .win-hub-section-content { height:calc(100% - 42px); min-height:0; }
 .stations-section { width:410px; }
-.map-section { width:min(72vw,1200px); min-width:600px; }
+.map-section { width:min(calc(100vw - 480px),1200px); min-width:600px; }
 .hub-section-content { display:flex; flex-direction:column; min-height:0; }
 .section-toolbar { display:flex; flex:0 0 38px; align-items:center; justify-content:space-between; gap:10px; border-bottom:1px solid var(--line); }
 .section-count { display:flex; align-items:center; gap:7px; color:#bcbcbc; font-size:11px; }
@@ -102,13 +102,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible { 
 .station-pin-host { background:transparent; border:0; }
 .station-pin { display:block; width:9px; height:9px; background:#ffb900; border:1px solid #fff; border-radius:50%; box-shadow:0 0 0 3px rgba(255,185,0,.2); transition:transform 120ms ease,background 120ms ease; }
 .station-pin-host:hover .station-pin,.station-pin.is-selected { width:13px; height:13px; margin:-2px; background:#0078d7; border-color:#fff; box-shadow:0 0 0 5px rgba(0,120,215,.22); }
-.selected-station-card { position:absolute; z-index:650; top:16px; left:16px; display:grid; grid-template-columns:42px minmax(0,1fr); align-items:center; gap:9px; width:min(270px,calc(100% - 32px)); min-height:62px; padding:8px; color:#fff; background:rgba(31,31,31,.96); border:1px solid #666; pointer-events:none; }
+.selected-station-card { position:absolute; z-index:650; top:16px; left:16px; display:flex; align-items:center; gap:8px; width:calc(100% - 32px); min-height:24px; padding:0; color:#fff; background:transparent; border:0; text-shadow:0 1px 3px #000,0 1px 8px #000; pointer-events:none; }
 .selected-station-card[hidden] { display:none; }
-.selected-station-art { display:grid; place-items:center; width:42px; height:42px; overflow:hidden; color:#fff; background:#454545; font-size:11px; }
+.selected-station-art { display:none; }
 .selected-station-art img { width:100%; height:100%; object-fit:cover; }
-.selected-station-copy { display:flex; flex-direction:column; gap:4px; min-width:0; }
+.selected-station-copy { display:flex; flex-direction:row; align-items:baseline; gap:8px; min-width:0; }
 .selected-station-copy strong { overflow:hidden; color:#fff; font-size:12px; font-weight:600; text-overflow:ellipsis; white-space:nowrap; }
-.selected-station-copy>span { overflow:hidden; color:#bdbdbd; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
+.selected-station-copy>span { overflow:hidden; color:#e2e2e2; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
 .map-empty { position:absolute; z-index:401; top:50%; left:50%; padding:10px 14px; color:#eee; background:rgba(31,31,31,.94); border:1px solid #666; font-size:11px; transform:translate(-50%,-50%); pointer-events:none; }
 .map-empty[hidden] { display:none; }
 .player-bar { display:grid; grid-template-columns:minmax(200px,1fr) 64px minmax(160px,280px) minmax(130px,190px); align-items:center; gap:20px; min-width:0; padding:0 24px; background:#171717; border-top:1px solid #444; }
