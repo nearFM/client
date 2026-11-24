@@ -1,4 +1,4 @@
-import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type StyleSpecification } from "maplibre-gl";
+import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { RadioStation } from "../types";
 import { hasCoordinates } from "../services/radio-browser";
@@ -9,30 +9,7 @@ interface StationFeatureProperties {
   selected: boolean;
 }
 
-const BASE_STYLE: StyleSpecification = {
-  version: 8,
-  sources: {
-    carto: {
-      type: "raster",
-      tiles: ["https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"],
-      tileSize: 256,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-    }
-  },
-  layers: [
-    {
-      id: "carto-dark",
-      type: "raster",
-      source: "carto",
-      paint: {
-        "raster-saturation": -1,
-        "raster-contrast": 0.18,
-        "raster-brightness-min": 0,
-        "raster-brightness-max": 0.82
-      }
-    }
-  ]
-};
+
 
 export class StationMap {
   private readonly map: MapLibreMap;
@@ -48,7 +25,7 @@ export class StationMap {
     this.resizeObserver.observe(element);
     this.map = new maplibregl.Map({
       container: element,
-      style: BASE_STYLE,
+      style: "/map-style.json",
       center: [8, 23],
       zoom: 2,
       minZoom: 2,
