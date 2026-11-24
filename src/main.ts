@@ -8,10 +8,10 @@ import { Visualizer } from "./components/visualizer";
 
 const icon = {
   star: '<span class="mif-star" aria-hidden="true"></span>',
-  search: '<span class="mif-search" aria-hidden="true"></span>',
+  search: '<i class="icons8-search" aria-hidden="true"></i>',
   play: '<span class="mif-play" aria-hidden="true"></span>',
   pause: '<span class="mif-pause" aria-hidden="true"></span>',
-  refresh: '<span class="mif-refresh" aria-hidden="true"></span>',
+  refresh: '<i class="icons8-refresh" aria-hidden="true"></i>',
   volume: '<span class="mif-volume-high" aria-hidden="true"></span>'
 };
 
