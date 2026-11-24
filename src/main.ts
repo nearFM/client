@@ -33,11 +33,11 @@ app.innerHTML = `
       </nav>
       <form class="search-form" id="search-form" role="search">
         <label class="sr-only" for="station-search">Search stations</label>
-        <span class="search-icon">\${icon.search}</span>
+        <span class="search-icon">${icon.search}</span>
         <input id="station-search" name="q" type="search" placeholder="Search stations" autocomplete="off" />
         <kbd>ENTER</kbd>
       </form>
-      <button class="header-command" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">\${icon.refresh}</button>
+      <button class="header-command" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">${icon.refresh}</button>
     </header>
 
     <main class="main-content">
@@ -109,7 +109,7 @@ app.innerHTML = `
         </div>
       </div>
       <div class="transport">
-        <button class="play-button win-button win-button-primary" id="play-button" type="button" aria-label="Play selected station" title="Play selected station" disabled>\${icon.play}</button>
+        <button class="play-button win-button win-button-primary" id="play-button" type="button" aria-label="Play selected station" title="Play selected station" disabled>${icon.play}</button>
         <span class="play-state" id="play-state">READY</span>
       </div>
       <div class="visualizer-panel">
@@ -117,7 +117,7 @@ app.innerHTML = `
         <canvas id="visualizer" aria-label="Audio frequency visualizer"></canvas>
       </div>
       <div class="volume-control">
-        <span class="volume-icon">\${icon.volume}</span>
+        <span class="volume-icon">${icon.volume}</span>
         <label class="sr-only" for="volume-slider">Volume</label>
         <input class="win-slider" id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.72" />
         <span id="volume-value">72</span>
@@ -125,7 +125,7 @@ app.innerHTML = `
     </footer>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-;
+`;
 
 const byId = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id);
@@ -223,14 +223,14 @@ function createStationItem(itemPromise: any): Promise<HTMLElement> {
     const selected = selectedStation?.stationuuid === station.stationuuid;
     const image = safeImageUrl(station.favicon);
     const row = document.createElement("div");
-    row.className = \`station-row\${selected ? " is-selected" : ""}\`;
+    row.className = `station-row${selected ? " is-selected" : ""}`;
     row.dataset.stationRow = station.stationuuid;
 
     const select = document.createElement("button");
     select.className = "station-select";
     select.type = "button";
     select.dataset.select = station.stationuuid;
-    select.setAttribute("aria-label", \`Select \${station.name}\`);
+    select.setAttribute("aria-label", `Select ${station.name}`);
 
     const index = document.createElement("span");
     index.className = "station-index";
@@ -264,10 +264,10 @@ function createStationItem(itemPromise: any): Promise<HTMLElement> {
     select.append(index, avatar, copy, codec);
 
     const favoriteButton = document.createElement("button");
-    favoriteButton.className = \`favorite-button\${favorite ? " is-favorite" : ""}\`;
+    favoriteButton.className = `favorite-button${favorite ? " is-favorite" : ""}`;
     favoriteButton.type = "button";
     favoriteButton.dataset.favorite = station.stationuuid;
-    favoriteButton.setAttribute("aria-label", \`\${favorite ? "Remove from" : "Add to"} favorites\`);
+    favoriteButton.setAttribute("aria-label", `${favorite ? "Remove from" : "Add to"} favorites`);
     favoriteButton.setAttribute("aria-pressed", String(favorite));
     favoriteButton.innerHTML = icon.star;
     row.append(select, favoriteButton);
@@ -278,9 +278,9 @@ function createStationItem(itemPromise: any): Promise<HTMLElement> {
 function renderStations(): void {
   const visible = getVisibleStations();
   const mapped = visible.filter(hasCoordinates).length;
-  byId<HTMLSpanElement>("station-count").textContent = \`\${visible.length.toLocaleString()} stations\`;
-  byId<HTMLSpanElement>("mapped-count").textContent = \`\${mapped.toLocaleString()} on map\`;
-  byId<HTMLSpanElement>("map-count").textContent = \`\${mapped.toLocaleString()} stations on map\`;
+  byId<HTMLSpanElement>("station-count").textContent = `${visible.length.toLocaleString()} stations`;
+  byId<HTMLSpanElement>("mapped-count").textContent = `${mapped.toLocaleString()} on map`;
+  byId<HTMLSpanElement>("map-count").textContent = `${mapped.toLocaleString()} stations on map`;
   byId<HTMLDivElement>("map-empty").hidden = mapped > 0;
 
   if (stationListControl) {
@@ -344,9 +344,9 @@ function setNetworkState(state: "connecting" | "online" | "offline", message?: s
   networkIndicator.classList.toggle("is-online", state === "online");
   networkIndicator.classList.toggle("is-offline", state === "offline");
   networkLabel.textContent = message ?? ({
-    connecting: "CONNECTING TO DIRECTORY",
-    online: "RADIO BROWSER ONLINE",
-    offline: "DIRECTORY UNAVAILABLE"
+    connecting: "Connecting",
+    online: "Online",
+    offline: "Offline"
   }[state]);
 }
 
