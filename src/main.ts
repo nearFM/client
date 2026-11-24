@@ -12,7 +12,7 @@ const icon = {
   play: '<span class="mif-play" aria-hidden="true"></span>',
   pause: '<span class="mif-pause" aria-hidden="true"></span>',
   refresh: '<i class="icons8-refresh" aria-hidden="true"></i>',
-  volume: '<img src="https://img.icons8.com/win10/1200/speaker.jpg" alt="" aria-hidden="true">'
+  volume: '<img src="https://img.icons8.com/win10/1200/audio.jpg" alt="" aria-hidden="true">'
 };
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -377,11 +377,29 @@ byId<HTMLButtonElement>("play-button").addEventListener("click", () => {
   else void player.play(target);
 });
 
-byId<HTMLInputElement>("volume-slider").addEventListener("input", (event) => {
+function renderVolumeIcon(value: number): void {
+  const image = document.querySelector<HTMLImageElement>(".volume-icon img");
+  if (!image) return;
+
+  const iconUrl = value <= 0
+    ? "https://img.icons8.com/win10/1200/speaker.jpg"
+    : value <= 0.33
+      ? "https://img.icons8.com/win10/1200/low-volume.jpg"
+      : value <= 0.66
+        ? "https://img.icons8.com/win10/1200/sound-speaker.jpg"
+        : "https://img.icons8.com/win10/1200/audio.jpg";
+
+  image.src = iconUrl;
+}
+
+const volumeSlider = byId<HTMLInputElement>("volume-slider");
+renderVolumeIcon(Number(volumeSlider.value));
+volumeSlider.addEventListener("input", (event) => {
   const input = event.currentTarget as HTMLInputElement;
   const value = Number(input.value);
   player.setVolume(value);
   byId<HTMLSpanElement>("volume-value").textContent = String(Math.round(value * 100));
+  renderVolumeIcon(value);
 });
 
 window.addEventListener("resize", () => stationMap.invalidateSize());
