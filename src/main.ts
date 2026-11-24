@@ -18,7 +18,7 @@ const icon = {
 const app = document.querySelector<HTMLDivElement>("#app");
 if (!app) throw new Error("App root was not found.");
 
-app.innerHTML = \`
+app.innerHTML = `
   <div class="app-shell">
     <aside class="sidebar">
       <div class="sidebar-top">
@@ -104,7 +104,7 @@ app.innerHTML = \`
     </main>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-\`;
+`;
 
 const byId = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id);
