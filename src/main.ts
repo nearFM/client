@@ -95,6 +95,14 @@ app.innerHTML = `
 
           <section class="map-panel" aria-label="World map of radio stations">
             <div id="station-map" class="station-map"></div>
+            <aside class="selected-station-card" id="selected-station-card" aria-live="polite" hidden>
+              <div class="selected-station-art" id="selected-station-art"></div>
+              <div class="selected-station-copy">
+                <span class="selected-station-kicker">SELECTED STATION</span>
+                <strong id="selected-station-name"></strong>
+                <span id="selected-station-detail"></span>
+              </div>
+            </aside>
             <div class="map-topline">
               <span>WORLD / LIVE DIRECTORY</span>
               <span id="map-count">0 LOCATIONS</span>
@@ -261,6 +269,28 @@ function renderStations(): void {
   }
 
   stationMap.render(visible, selectedStation?.stationuuid ?? null);
+  renderSelectedStation();
+}
+
+function renderSelectedStation(): void {
+  const card = byId<HTMLElement>("selected-station-card");
+  if (!selectedStation) {
+    card.hidden = true;
+    return;
+  }
+
+  const image = safeImageUrl(selectedStation.favicon);
+  const art = byId<HTMLDivElement>("selected-station-art");
+  art.innerHTML = image
+    ? `<img src="${escapeHtml(image)}" alt="" referrerpolicy="no-referrer" />`
+    : `<span>${escapeHtml(stationInitials(selectedStation.name))}</span>`;
+  byId<HTMLElement>("selected-station-name").textContent = selectedStation.name || "Unnamed station";
+  byId<HTMLElement>("selected-station-detail").textContent = [
+    selectedStation.country || "Unknown location",
+    selectedStation.state,
+    selectedStation.codec || "Internet radio"
+  ].filter(Boolean).join(" · ");
+  card.hidden = false;
 }
 
 function renderView(): void {
