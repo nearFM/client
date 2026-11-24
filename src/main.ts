@@ -164,15 +164,15 @@ function safeImageUrl(value: string): string {
   }
 }
 
-const stationImageFallback = "https://img.icons8.com/?size=100&id=PXS9WdRlqCPq&format=png&color=000000";
+const imageFallback = "https://img.icons8.com/?size=100&id=PXS9WdRlqCPq&format=png&color=000000";
 
-function attachStationImageFallback(container: ParentNode): void {
-  container.querySelectorAll<HTMLImageElement>(".station-row-art img, #player-art img").forEach((image) => {
-    image.addEventListener("error", () => {
-      image.src = stationImageFallback;
-    }, { once: true });
-  });
-}
+document.addEventListener("error", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLImageElement) || target.dataset.fallbackApplied === "true") return;
+
+  target.dataset.fallbackApplied = "true";
+  target.src = imageFallback;
+}, true);
 
 function stationInitials(name: string): string {
   const words = name.trim().split(/\s+/).filter(Boolean);
@@ -232,7 +232,6 @@ function renderStations(): void {
       escapeHtml(station.stationuuid) + '" aria-label="' + (favorite ? "Remove from" : "Add to") + ' favorites" aria-pressed="' + String(favorite) + '">' +
       icon.star + '</button></div>';
   }).join("");
-  attachStationImageFallback(stationList);
 
   setListMessage(visible.length === 0
     ? (activeView === "favorites" ? "No saved stations." : "No stations found.")
@@ -336,7 +335,6 @@ function renderPlayer(snapshot: PlayerSnapshot): void {
   art.innerHTML = image
     ? '<img src="' + escapeHtml(image) + '" alt="" referrerpolicy="no-referrer">'
     : '<span>' + (station ? escapeHtml(stationInitials(station.name)) : "FM") + '</span>';
-  attachStationImageFallback(art);
 
   const playButton = byId<HTMLButtonElement>("play-button");
   playButton.disabled = !station || snapshot.loading;
