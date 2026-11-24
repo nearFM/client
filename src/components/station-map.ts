@@ -3,8 +3,6 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import type { RadioStation } from "../types";
 import { hasCoordinates } from "../services/radio-browser";
 
-export type MapStylePreset = "standard" | "muted" | "monochrome" | "night";
-
 interface StationFeatureProperties {
   stationuuid: string;
   name: string;
@@ -36,24 +34,11 @@ const BASE_STYLE: StyleSpecification = {
   ]
 };
 
-const STYLE_PRESETS: Record<MapStylePreset, {
-  saturation: number;
-  contrast: number;
-  brightnessMin: number;
-  brightnessMax: number;
-}> = {
-  standard: { saturation: 0, contrast: 0, brightnessMin: 0, brightnessMax: 1 },
-  muted: { saturation: -0.55, contrast: -0.12, brightnessMin: 0.12, brightnessMax: 0.82 },
-  monochrome: { saturation: -1, contrast: 0.12, brightnessMin: 0.08, brightnessMax: 0.92 },
-  night: { saturation: -0.8, contrast: 0.08, brightnessMin: 0.02, brightnessMax: 0.38 }
-};
-
 export class StationMap {
   private readonly map: MapLibreMap;
   private readonly onSelect: (station: RadioStation) => void;
   private stationById = new Map<string, RadioStation>();
   private stations: RadioStation[] = [];
-  private stylePreset: MapStylePreset = "night";
   private sourceReady = false;
 
   constructor(element: HTMLElement, onSelect: (station: RadioStation) => void) {
@@ -111,7 +96,6 @@ export class StationMap {
 
       this.sourceReady = true;
       this.updateStations();
-      this.setStylePreset(this.stylePreset);
     });
 
   }
@@ -156,17 +140,6 @@ export class StationMap {
           } satisfies StationFeatureProperties
         }))
     });
-  }
-
-  setStylePreset(preset: MapStylePreset): void {
-    this.stylePreset = preset;
-    const style = STYLE_PRESETS[preset];
-    if (!this.map.getLayer("osm-raster")) return;
-
-    this.map.setPaintProperty("osm-raster", "raster-saturation", style.saturation);
-    this.map.setPaintProperty("osm-raster", "raster-contrast", style.contrast);
-    this.map.setPaintProperty("osm-raster", "raster-brightness-min", style.brightnessMin);
-    this.map.setPaintProperty("osm-raster", "raster-brightness-max", style.brightnessMax);
   }
 
   focus(station: RadioStation): void {
