@@ -40,9 +40,12 @@ export class StationMap {
   private stationById = new Map<string, RadioStation>();
   private stations: RadioStation[] = [];
   private sourceReady = false;
+  private readonly resizeObserver: ResizeObserver;
 
   constructor(element: HTMLElement, onSelect: (station: RadioStation) => void) {
     this.onSelect = onSelect;
+    this.resizeObserver = new ResizeObserver(() => this.map.resize());
+    this.resizeObserver.observe(element);
     this.map = new maplibregl.Map({
       container: element,
       style: BASE_STYLE,
@@ -95,6 +98,7 @@ export class StationMap {
       });
 
       this.sourceReady = true;
+      this.map.resize();
       this.updateStations();
     });
 
@@ -153,7 +157,7 @@ export class StationMap {
   }
 
   invalidateSize(): void {
-    window.setTimeout(() => this.map.resize(), 80);
+    this.map.resize();
   }
 
   getStationCount(): number {
