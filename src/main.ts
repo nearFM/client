@@ -24,132 +24,108 @@ if (!app) throw new Error("App root was not found.");
 
 app.innerHTML = `
   <div class="app-shell">
-    <aside class="rail" aria-label="Main navigation">
-      <a class="brand-mark" href="#" aria-label="nearFM home">
-        <img src="https://raw.githubusercontent.com/nearFM/source/main/logo/nearFM.logo.svg" alt="" />
-      </a>
-      <nav class="rail-nav">
-        <button class="rail-button is-active" type="button" data-view="discover" aria-label="Discover" title="Discover" aria-current="page">${icon.map}</button>
-        <button class="rail-button" type="button" data-view="stations" aria-label="Stations" title="Stations">${icon.list}</button>
-        <button class="rail-button" type="button" data-view="favorites" aria-label="Favorites" title="Favorites">${icon.star}</button>
+    <header class="app-header">
+      <a class="wordmark" href="#" aria-label="nearFM">nearFM</a>
+      <nav class="view-tabs" aria-label="Library">
+        <button class="view-tab is-active" type="button" data-view="discover" aria-current="page">Discover</button>
+        <button class="view-tab" type="button" data-view="stations">Stations</button>
+        <button class="view-tab" type="button" data-view="favorites">Favorites</button>
       </nav>
-      <div class="rail-foot">
-        <span class="rail-status-dot"></span>
-        <span>0.1</span>
+      <form class="search-form" id="search-form" role="search">
+        <label class="sr-only" for="station-search">Search stations</label>
+        <span class="search-icon">\${icon.search}</span>
+        <input id="station-search" name="q" type="search" placeholder="Search stations" autocomplete="off" />
+        <kbd>ENTER</kbd>
+      </form>
+      <button class="header-command" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">\${icon.refresh}</button>
+    </header>
+
+    <main class="main-content">
+      <div class="hub-title-row">
+        <h1 id="content-title">Discover radio</h1>
+        <div class="directory-state" aria-live="polite">
+          <span class="network-indicator" id="network-indicator"></span>
+          <span id="network-label">Connecting</span>
+        </div>
       </div>
-    </aside>
 
-    <div class="workspace">
-      <header class="topbar">
-        <div class="topbar-brand">
-          <p class="eyebrow">NEARFIELD RADIO</p>
-          <h1 id="page-title">Discover</h1>
-        </div>
-        <form class="search-form" id="search-form" role="search">
-          <label class="sr-only" for="station-search">Search radio stations</label>
-          <span class="search-icon">${icon.search}</span>
-          <input id="station-search" name="q" type="search" placeholder="Search station names…" autocomplete="off" />
-          <kbd>ENTER</kbd>
-        </form>
-        <button class="icon-button refresh-button" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">${icon.refresh}</button>
-      </header>
-
-      <main class="main-content">
-        <div class="content-heading">
-          <div>
-            <p class="section-kicker">RADIO BROWSER DIRECTORY</p>
-            <h2 id="content-title">Find a frequency.</h2>
-            <p class="content-subtitle" id="content-subtitle">Explore independent radio stations from around the world.</p>
-          </div>
-          <div class="network-state" aria-live="polite">
-            <span class="network-indicator" id="network-indicator"></span>
-            <span id="network-label">CONNECTING TO DIRECTORY</span>
-          </div>
-        </div>
-
-        <section class="station-workspace" id="station-workspace" data-view="discover">
-          <div class="directory-panel">
-            <div class="panel-heading">
-              <div>
-                <p class="panel-kicker">DIRECTORY</p>
-                <h3 id="list-title">Popular stations</h3>
+      <div class="radio-hub" id="radio-hub" data-win-control="WinJS.UI.Hub">
+        <section class="hub-section stations-section" id="stations-section"
+          data-win-control="WinJS.UI.HubSection"
+          data-win-options="{ header: 'Stations', isHeaderStatic: true }">
+          <div class="hub-section-content">
+            <div class="section-toolbar">
+              <div class="section-count">
+                <span id="station-count">Loading stations</span>
+                <span class="count-divider">/</span>
+                <span id="mapped-count">— on map</span>
               </div>
               <label class="sr-only" for="sort-select">Sort stations</label>
-              <select id="sort-select" class="sort-select">
+              <select id="sort-select" class="win-dropdown sort-select">
                 <option value="popular">Popular</option>
-                <option value="name">A–Z</option>
+                <option value="name">Name</option>
               </select>
             </div>
-            <div class="station-count-row">
-              <span id="station-count">LOADING STATIONS</span>
-              <span id="mapped-count">— ON MAP</span>
+            <div class="station-list-frame">
+              <div class="station-list" id="station-list"></div>
+              <div class="list-message" id="list-message">Connecting to Radio Browser…</div>
             </div>
-            <div class="station-list" id="station-list" aria-live="polite">
-              <div class="list-message">Connecting to Radio Browser…</div>
-            </div>
-            <div class="panel-foot">
-              <span>DATA FROM RADIO BROWSER</span>
-              <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">RADIO BROWSER</a>
+            <div class="source-line">
+              Directory data by <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">Radio Browser</a>
             </div>
           </div>
-
-          <section class="map-panel" aria-label="World map of radio stations">
-            <div id="station-map" class="station-map"></div>
-            <aside class="selected-station-card" id="selected-station-card" aria-live="polite" hidden>
-              <div class="selected-station-art" id="selected-station-art"></div>
-              <div class="selected-station-copy">
-                <span class="selected-station-kicker">SELECTED STATION</span>
-                <strong id="selected-station-name"></strong>
-                <span id="selected-station-detail"></span>
-              </div>
-            </aside>
-            <div class="map-topline">
-              <span>WORLD / LIVE DIRECTORY</span>
-              <span id="map-count">0 LOCATIONS</span>
-            </div>
-            <div class="map-bottomline">
-              <span><i class="map-key-dot"></i> STATION LOCATION</span>
-              <span>SELECT A POINT TO INSPECT</span>
-            </div>
-            <div class="map-empty" id="map-empty" hidden>NO GEOLOCATED STATIONS IN THIS RESULT</div>
-          </section>
         </section>
-      </main>
 
-      <footer class="player-bar" aria-label="Now playing">
-        <div class="now-playing">
-          <div class="station-art" id="player-art"><span>FM</span></div>
-          <div class="now-playing-copy">
-            <span class="player-kicker">NOW PLAYING</span>
-            <strong id="player-name">Nothing selected</strong>
-            <span id="player-detail">Choose a station from the directory</span>
+        <section class="hub-section map-section" id="map-section"
+          data-win-control="WinJS.UI.HubSection"
+          data-win-options="{ header: 'World map', isHeaderStatic: true }">
+          <div class="hub-section-content map-section-content">
+            <div class="map-toolbar">
+              <span id="map-count">0 stations on map</span>
+              <span>Select a marker to tune in</span>
+            </div>
+            <div class="map-panel">
+              <div id="station-map" class="station-map"></div>
+              <aside class="selected-station-card" id="selected-station-card" aria-live="polite" hidden>
+                <div class="selected-station-art" id="selected-station-art"></div>
+                <div class="selected-station-copy">
+                  <strong id="selected-station-name"></strong>
+                  <span id="selected-station-detail"></span>
+                </div>
+              </aside>
+              <div class="map-empty" id="map-empty" hidden>No stations with location data</div>
+            </div>
           </div>
-        </div>
+        </section>
+      </div>
+    </main>
 
-        <div class="transport">
-          <button class="play-button" id="play-button" type="button" aria-label="Play selected station" title="Play selected station" disabled>${icon.play}</button>
-          <span class="play-state" id="play-state">READY</span>
+    <footer class="player-bar" aria-label="Playback controls">
+      <div class="now-playing">
+        <div class="station-art" id="player-art"><span>FM</span></div>
+        <div class="now-playing-copy">
+          <strong id="player-name">Nothing selected</strong>
+          <span id="player-detail">Select a station to listen</span>
         </div>
-
-        <div class="visualizer-panel">
-          <div class="visualizer-heading">
-            <span>LIVE SIGNAL</span>
-            <span id="visualizer-status">WAITING FOR AUDIO</span>
-          </div>
-          <canvas id="visualizer" aria-label="Live audio frequency visualizer"></canvas>
-        </div>
-
-        <div class="volume-control">
-          <span class="volume-icon">${icon.volume}</span>
-          <label class="sr-only" for="volume-slider">Volume</label>
-          <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.72" />
-          <span id="volume-value">72</span>
-        </div>
-      </footer>
-    </div>
+      </div>
+      <div class="transport">
+        <button class="play-button win-button win-button-primary" id="play-button" type="button" aria-label="Play selected station" title="Play selected station" disabled>\${icon.play}</button>
+        <span class="play-state" id="play-state">READY</span>
+      </div>
+      <div class="visualizer-panel">
+        <span class="visualizer-status" id="visualizer-status">WAITING FOR AUDIO</span>
+        <canvas id="visualizer" aria-label="Audio frequency visualizer"></canvas>
+      </div>
+      <div class="volume-control">
+        <span class="volume-icon">\${icon.volume}</span>
+        <label class="sr-only" for="volume-slider">Volume</label>
+        <input class="win-slider" id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.72" />
+        <span id="volume-value">72</span>
+      </div>
+    </footer>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-`;
+;
 
 const byId = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id);
@@ -158,6 +134,12 @@ const byId = <T extends HTMLElement>(id: string): T => {
 };
 
 const stationList = byId<HTMLDivElement>("station-list");
+const listMessage = byId<HTMLDivElement>("list-message");
+const mapSection = byId<HTMLElement>("map-section");
+const WinJS = (window as unknown as { WinJS: any }).WinJS;
+if (!WinJS) throw new Error("WinJS failed to load.");
+let stationListControl: any = null;
+let hubControl: any = null;
 const stationMapElement = byId<HTMLDivElement>("station-map");
 const workspace = byId<HTMLElement>("station-workspace");
 const searchInput = byId<HTMLInputElement>("station-search");
@@ -228,45 +210,88 @@ function getVisibleStations(): RadioStation[] {
   return filtered.sort((a, b) => b.clickcount - a.clickcount);
 }
 
+function setListMessage(message: string | null, error = false): void {
+  listMessage.textContent = message ?? "";
+  listMessage.hidden = message === null;
+  listMessage.classList.toggle("error-message", error);
+}
+
+function createStationItem(itemPromise: any): Promise<HTMLElement> {
+  return itemPromise.then((item: { data: RadioStation; index: number }) => {
+    const station = item.data;
+    const favorite = favoriteIds.includes(station.stationuuid);
+    const selected = selectedStation?.stationuuid === station.stationuuid;
+    const image = safeImageUrl(station.favicon);
+    const row = document.createElement("div");
+    row.className = \`station-row\${selected ? " is-selected" : ""}\`;
+    row.dataset.stationRow = station.stationuuid;
+
+    const select = document.createElement("button");
+    select.className = "station-select";
+    select.type = "button";
+    select.dataset.select = station.stationuuid;
+    select.setAttribute("aria-label", \`Select \${station.name}\`);
+
+    const index = document.createElement("span");
+    index.className = "station-index";
+    index.textContent = String(item.index + 1).padStart(2, "0");
+
+    const avatar = document.createElement("span");
+    avatar.className = "station-avatar";
+    if (image) {
+      const img = document.createElement("img");
+      img.src = image;
+      img.alt = "";
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      avatar.append(img);
+    } else {
+      avatar.textContent = stationInitials(station.name);
+    }
+
+    const copy = document.createElement("span");
+    copy.className = "station-copy";
+    const name = document.createElement("strong");
+    name.textContent = station.name || "Unnamed station";
+    const detail = document.createElement("span");
+    const tags = station.tags.split(",").map((tag) => tag.trim()).filter(Boolean).slice(0, 2).join(" · ");
+    detail.textContent = [station.country || "Unknown country", tags].filter(Boolean).join(" · ");
+    copy.append(name, detail);
+
+    const codec = document.createElement("span");
+    codec.className = "station-format";
+    codec.textContent = station.codec || "RADIO";
+    select.append(index, avatar, copy, codec);
+
+    const favoriteButton = document.createElement("button");
+    favoriteButton.className = \`favorite-button\${favorite ? " is-favorite" : ""}\`;
+    favoriteButton.type = "button";
+    favoriteButton.dataset.favorite = station.stationuuid;
+    favoriteButton.setAttribute("aria-label", \`\${favorite ? "Remove from" : "Add to"} favorites\`);
+    favoriteButton.setAttribute("aria-pressed", String(favorite));
+    favoriteButton.innerHTML = icon.star;
+    row.append(select, favoriteButton);
+    return row;
+  });
+}
+
 function renderStations(): void {
   const visible = getVisibleStations();
   const mapped = visible.filter(hasCoordinates).length;
-  byId<HTMLSpanElement>("station-count").textContent = `${visible.length.toLocaleString()} STATIONS`;
-  byId<HTMLSpanElement>("mapped-count").textContent = `${mapped.toLocaleString()} ON MAP`;
-  byId<HTMLSpanElement>("map-count").textContent = `${mapped.toLocaleString()} LOCATIONS`;
+  byId<HTMLSpanElement>("station-count").textContent = \`\${visible.length.toLocaleString()} stations\`;
+  byId<HTMLSpanElement>("mapped-count").textContent = \`\${mapped.toLocaleString()} on map\`;
+  byId<HTMLSpanElement>("map-count").textContent = \`\${mapped.toLocaleString()} stations on map\`;
   byId<HTMLDivElement>("map-empty").hidden = mapped > 0;
 
-  if (visible.length === 0) {
-    stationList.innerHTML = `<div class="list-message">${activeView === "favorites" ? "No saved stations yet." : "No stations matched this search."}</div>`;
-  } else {
-    stationList.innerHTML = visible.map((station, index) => {
-      const favorite = favoriteIds.includes(station.stationuuid);
-      const image = safeImageUrl(station.favicon);
-      const selected = selectedStation?.stationuuid === station.stationuuid;
-      const country = station.country || "Unknown country";
-      const tags = station.tags.split(",").map((tag) => tag.trim()).filter(Boolean).slice(0, 2).join(" · ");
-      const avatar = image
-        ? `<img src="${escapeHtml(image)}" alt="" loading="lazy" referrerpolicy="no-referrer" />`
-        : `<span>${escapeHtml(stationInitials(station.name))}</span>`;
-
-      return `
-        <article class="station-row${selected ? " is-selected" : ""}" data-station-row="${escapeHtml(station.stationuuid)}">
-          <button class="station-select" type="button" data-select="${escapeHtml(station.stationuuid)}" aria-label="Select ${escapeHtml(station.name)}">
-            <span class="station-index">${String(index + 1).padStart(2, "0")}</span>
-            <span class="station-avatar">${avatar}</span>
-            <span class="station-copy">
-              <strong>${escapeHtml(station.name || "Unnamed station")}</strong>
-              <span>${escapeHtml(country)}${tags ? ` <i>·</i> ${escapeHtml(tags)}` : ""}</span>
-            </span>
-            <span class="station-format">${escapeHtml(station.codec || "RADIO")}</span>
-          </button>
-          <button class="favorite-button${favorite ? " is-favorite" : ""}" type="button" data-favorite="${escapeHtml(station.stationuuid)}" aria-label="${favorite ? "Remove from" : "Add to"} favorites" aria-pressed="${favorite}">
-            ${icon.star}
-          </button>
-        </article>
-      `;
-    }).join("");
+  if (stationListControl) {
+    const data = new WinJS.Binding.List(visible);
+    stationListControl.itemDataSource = data.dataSource;
   }
+  setListMessage(
+    visible.length === 0
+      ? (activeView === "favorites" ? "No saved stations." : "No stations found.")
+      : null
+  );
 
   stationMap.render(visible, selectedStation?.stationuuid ?? null);
   renderSelectedStation();
@@ -294,32 +319,15 @@ function renderSelectedStation(): void {
 }
 
 function renderView(): void {
-  const titles: Record<AppView, { page: string; heading: string; subtitle: string; list: string }> = {
-    discover: {
-      page: "Discover",
-      heading: "Find a frequency.",
-      subtitle: "Explore independent radio stations from around the world.",
-      list: "Popular stations"
-    },
-    stations: {
-      page: "Stations",
-      heading: "Station directory.",
-      subtitle: "Browse the stations currently available in the Radio Browser directory.",
-      list: "All stations"
-    },
-    favorites: {
-      page: "Favorites",
-      heading: "Your saved stations.",
-      subtitle: "A local collection stored on this device.",
-      list: "Saved stations"
-    }
+  const titles: Record<AppView, string> = {
+    discover: "Discover radio",
+    stations: "Stations",
+    favorites: "Favorites"
   };
-  const copy = titles[activeView];
-  byId<HTMLHeadingElement>("page-title").textContent = copy.page;
-  byId<HTMLHeadingElement>("content-title").textContent = copy.heading;
-  byId<HTMLParagraphElement>("content-subtitle").textContent = copy.subtitle;
-  byId<HTMLHeadingElement>("list-title").textContent = copy.list;
+  byId<HTMLHeadingElement>("content-title").textContent = titles[activeView];
   workspace.dataset.view = activeView;
+  mapSection.hidden = activeView !== "discover";
+  if (hubControl) hubControl.forceLayout();
 
   document.querySelectorAll<HTMLButtonElement>("[data-view]").forEach((button) => {
     const active = button.dataset.view === activeView;
@@ -353,7 +361,7 @@ async function loadStations(query = ""): Promise<void> {
   requestController?.abort();
   requestController = new AbortController();
   setNetworkState("connecting");
-  stationList.innerHTML = '<div class="list-message">Loading station directory…</div>';
+  setListMessage("Loading stations…");
 
   try {
     const result = query.trim()
@@ -372,7 +380,7 @@ async function loadStations(query = ""): Promise<void> {
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") return;
     setNetworkState("offline");
-    stationList.innerHTML = `<div class="list-message error-message">Unable to load the directory.<br /><button type="button" class="text-button" id="retry-button">Retry connection</button></div>`;
+    setListMessage("Unable to load stations. Select Refresh to try again.", true);
   }
 }
 
@@ -522,14 +530,23 @@ byId<HTMLInputElement>("volume-slider").addEventListener("input", (event) => {
   byId<HTMLSpanElement>("volume-value").textContent = String(Math.round(value * 100));
 });
 
-stationList.addEventListener("click", (event) => {
-  const target = event.target;
-  if (target instanceof HTMLElement && target.id === "retry-button") {
-    void loadStations(searchInput.value.trim());
-  }
-});
+
 
 window.addEventListener("resize", () => stationMap.invalidateSize());
 
-renderView();
-void loadStations();
+void WinJS.UI.processAll().then(() => {
+  hubControl = byId<HTMLElement>("radio-hub").winControl;
+  stationListControl = new WinJS.UI.ListView(stationList, {
+    layout: { type: WinJS.UI.ListLayout },
+    selectionMode: "none",
+    tapBehavior: "none",
+    swipeBehavior: "none",
+    itemTemplate: createStationItem
+  });
+  stationListControl.element.addEventListener("contentanimating", (event: Event) => event.preventDefault());
+  renderView();
+  void loadStations();
+}).catch((error: unknown) => {
+  console.error("WinJS initialization failed.", error);
+  setListMessage("The station interface could not be initialized.", true);
+});
