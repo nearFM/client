@@ -33,10 +33,10 @@ app.innerHTML = `
       <section class="directory">
         <div class="directory-heading">
           <span id="content-title">Discover</span>
-          <button class="icon-button" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">\${icon.refresh}</button>
+          <button class="icon-button" id="refresh-button" type="button" aria-label="Refresh stations" title="Refresh stations">${icon.refresh}</button>
         </div>
         <form class="search-form" id="search-form" role="search">
-          <span class="search-icon">\${icon.search}</span>
+          <span class="search-icon">${icon.search}</span>
           <label class="sr-only" for="station-search">Search stations</label>
           <input id="station-search" name="q" type="search" placeholder="Search stations" autocomplete="off" />
         </form>
@@ -67,9 +67,9 @@ app.innerHTML = `
           </div>
         </div>
         <div class="player-controls">
-          <button class="play-button" id="play-button" type="button" aria-label="Play selected station" title="Play selected station" disabled>\${icon.play}</button>
+          <button class="play-button" id="play-button" type="button" aria-label="Play selected station" title="Play selected station" disabled>${icon.play}</button>
           <div class="volume-control">
-            <span class="volume-icon">\${icon.volume}</span>
+            <span class="volume-icon">${icon.volume}</span>
             <label class="sr-only" for="volume-slider">Volume</label>
             <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.72" />
             <span id="volume-value">72</span>
